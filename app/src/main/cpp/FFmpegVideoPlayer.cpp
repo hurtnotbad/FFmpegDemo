@@ -9,6 +9,7 @@
 #include <android/native_window.h>
 #include "unistd.h"
 
+//#include "convert_argb.h"
 
 extern "C" {
 //编码

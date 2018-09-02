@@ -2,6 +2,7 @@
 #include <string>
 #include <android/log.h>
 
+
 extern "C"
 JNIEXPORT jstring JNICALL
 Java_com_example_lammy_ffmpegdemo_MainActivity_stringFromJNI(

@@ -24,9 +24,10 @@ add_library( # Sets the name of the library.
              )
 
 
-
-
+# 需要添加include_directories(libs)，否则include_directories(libs/libyuv) 后，在ndk 层，调用yuv头文件的时候找不到
+include_directories(libs)
 include_directories(libs/include)
+include_directories(libs/libyuv)
 #设置so的路径
 set(ffmpeg_DIR ${CMAKE_SOURCE_DIR}/libs)
 add_library( avcodec-57
@@ -75,7 +76,7 @@ set_target_properties( swscale-4
 add_library( yuv
              SHARED
              IMPORTED)
-set_target_properties( swscale-4
+set_target_properties( yuv
                        PROPERTIES IMPORTED_LOCATION
                        ${ffmpeg_DIR}/armeabi/libyuv.so)
 
@@ -104,10 +105,9 @@ target_link_libraries( # Specifies the target library.
                        avutil-55
                        swresample-2
                        swscale-4
-
+                       yuv
                        # Links the target library to the log library
                        # included in the NDK.
                        ${log-lib}
-                       yuv
                        android
                        )
