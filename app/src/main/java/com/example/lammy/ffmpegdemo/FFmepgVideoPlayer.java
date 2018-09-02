@@ -45,6 +45,8 @@ public class FFmepgVideoPlayer {
 
     static {
         System.loadLibrary("native-lib");
+        System.loadLibrary("yuv");
+//        System.loadLibrary("yuv_utils");
         System.loadLibrary("avcodec-57");
         System.loadLibrary("avfilter-6");
         System.loadLibrary("avformat-57");
