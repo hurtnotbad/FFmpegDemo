@@ -13,11 +13,18 @@ cmake_minimum_required(VERSION 3.4.1)
 add_library( # Sets the name of the library.
              native-lib
 
+
              # Sets the library as a shared library.
              SHARED
 
              # Provides a relative path to your source file(s).
-             src/main/cpp/native-lib.cpp )
+             src/main/cpp/native-lib.cpp
+             src/main/cpp/FFmpegVideoPlayer.cpp
+             src/main/cpp/IFFmpegVideoPlayer.cpp
+             )
+
+
+
 
 include_directories(libs/include)
 #设置so的路径
@@ -94,4 +101,6 @@ target_link_libraries( # Specifies the target library.
                        swscale-4
                        # Links the target library to the log library
                        # included in the NDK.
-                       ${log-lib} )
+                       ${log-lib}
+                       android
+                       )

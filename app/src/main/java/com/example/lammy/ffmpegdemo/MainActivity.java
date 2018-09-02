@@ -10,6 +10,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.SurfaceView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +21,7 @@ import static com.example.lammy.ffmpegdemo.FFmpegUtil.decode;
 public class MainActivity extends AppCompatActivity {
 
 
+    private  SurfaceView surfaceView;
     private int permissionRequestCode = 1;
     private String inputFilePath = new File(Environment.getExternalStorageDirectory()+ "/a-lammytest/","test.mp4").getAbsolutePath();
     private String outputFilePath = new File(Environment.getExternalStorageDirectory()+ "/a-lammytest/","output_yuv420p.yuv").getAbsolutePath();
@@ -27,9 +29,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        surfaceView = findViewById(R.id.surface_view);
+//        requestPermissions();
 
-        requestPermissions();
-
+        FFmepgVideoPlayer fFmepgVideoPlayer = new FFmepgVideoPlayer(surfaceView);
+        fFmepgVideoPlayer.play(inputFilePath);
     }
 
     private String permissions[] = new String[]{
