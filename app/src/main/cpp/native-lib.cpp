@@ -179,3 +179,4 @@ Java_com_example_lammy_ffmpegdemo_FFmpegUtil_decode(JNIEnv *env, jclass type, js
     env->ReleaseStringUTFChars(input_, input);
     env->ReleaseStringUTFChars(output_, output);
 }
+

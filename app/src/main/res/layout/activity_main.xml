@@ -7,9 +7,20 @@
     tools:context="com.example.lammy.ffmpegdemo.MainActivity">
 
     <SurfaceView
-        android:layout_width="960px"
-        android:layout_height="540px"
+    android:layout_width="960px"
+    android:layout_height="540px"
         android:id="@+id/surface_view"
+        android:layout_centerInParent="true"
+        />
+    <!--android:layout_width="960px"-->
+    <!--android:layout_height="540px"-->
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="play"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:text="play"
         />
 
 </RelativeLayout>

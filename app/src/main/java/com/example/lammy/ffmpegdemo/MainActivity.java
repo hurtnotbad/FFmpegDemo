@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.SurfaceView;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,8 +33,7 @@ public class MainActivity extends AppCompatActivity {
         surfaceView = findViewById(R.id.surface_view);
 //        requestPermissions();
 
-        FFmepgVideoPlayer fFmepgVideoPlayer = new FFmepgVideoPlayer(surfaceView);
-        fFmepgVideoPlayer.play(inputFilePath);
+
     }
 
     private String permissions[] = new String[]{
@@ -41,6 +41,19 @@ public class MainActivity extends AppCompatActivity {
             Manifest.permission.READ_EXTERNAL_STORAGE,
 
     };
+
+    protected void play(View view){
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                FFmepgVideoPlayer fFmepgVideoPlayer = new FFmepgVideoPlayer(surfaceView);
+                fFmepgVideoPlayer.play(inputFilePath);
+            }
+        }).start();
+
+
+    }
 
 
     private void requestPermissions(){

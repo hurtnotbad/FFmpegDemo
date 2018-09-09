@@ -26,6 +26,7 @@ public:
   void pause();
   void stop();
   void play( const char *path , ANativeWindow* aNativeWindow);
+  void play2( const char *path , ANativeWindow* aNativeWindow);
 
 
 };

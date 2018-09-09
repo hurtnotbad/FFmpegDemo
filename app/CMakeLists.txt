@@ -10,6 +10,10 @@ cmake_minimum_required(VERSION 3.4.1)
 # You can define multiple libraries, and CMake builds them for you.
 # Gradle automatically packages shared libraries with your APK.
 
+include_directories(libs)
+include_directories(libs/include)
+include_directories(libs/libyuv)
+
 add_library( # Sets the name of the library.
              native-lib
 
@@ -24,61 +28,62 @@ add_library( # Sets the name of the library.
              )
 
 
-# 需要添加include_directories(libs)，否则include_directories(libs/libyuv) 后，在ndk 层，调用yuv头文件的时候找不到
-include_directories(libs)
-include_directories(libs/include)
-include_directories(libs/libyuv)
-#设置so的路径
-set(ffmpeg_DIR ${CMAKE_SOURCE_DIR}/libs)
-add_library( avcodec-57
-             SHARED
-             IMPORTED)
-set_target_properties( avcodec-57
-                       PROPERTIES IMPORTED_LOCATION
-                       ${ffmpeg_DIR}/armeabi/libavcodec-57.so)
+set(distribution_DIR ${CMAKE_SOURCE_DIR}/libs/)
+
+#libavcodec-56.so
+add_library(libavcodec-57-lib SHARED IMPORTED)
+set_target_properties(libavcodec-57-lib  PROPERTIES IMPORTED_LOCATION
+${distribution_DIR}/${ANDROID_ABI}/libavcodec-57.so)
 
 
-add_library( avfilter-6
-             SHARED
-             IMPORTED)
-set_target_properties( avfilter-6
-                       PROPERTIES IMPORTED_LOCATION
-                       ${ffmpeg_DIR}/armeabi/libavfilter-6.so)
+#libavdevice-57.so
+add_library(libavdevice-57-lib SHARED IMPORTED)
+set_target_properties(libavdevice-57-lib  PROPERTIES IMPORTED_LOCATION
+${distribution_DIR}/${ANDROID_ABI}/libavdevice-57.so)
 
-add_library( avformat-57
-             SHARED
-             IMPORTED)
-set_target_properties( avformat-57
-                       PROPERTIES IMPORTED_LOCATION
-                       ${ffmpeg_DIR}/armeabi/libavformat-57.so)
+#libavfilter-6.so
+add_library(libavfilter-6-lib SHARED IMPORTED)
+set_target_properties(libavfilter-6-lib  PROPERTIES IMPORTED_LOCATION
+${distribution_DIR}/${ANDROID_ABI}/libavfilter-6.so)
 
-add_library( avutil-55
-             SHARED
-             IMPORTED)
-set_target_properties( avutil-55
-                       PROPERTIES IMPORTED_LOCATION
-                       ${ffmpeg_DIR}/armeabi/libavutil-55.so)
+#libavformat-57.so
+add_library(libavformat-57-lib SHARED IMPORTED)
+set_target_properties(libavformat-57-lib  PROPERTIES IMPORTED_LOCATION
+${distribution_DIR}/${ANDROID_ABI}/libavformat-57.so)
 
-add_library( swresample-2
-             SHARED
-             IMPORTED)
-set_target_properties( swresample-2
-                       PROPERTIES IMPORTED_LOCATION
-                       ${ffmpeg_DIR}/armeabi/libswresample-2.so)
+#libavutil-54.so
+add_library(libavutil-55-lib SHARED IMPORTED)
+set_target_properties(libavutil-55-lib  PROPERTIES IMPORTED_LOCATION
+${distribution_DIR}/${ANDROID_ABI}/libavutil-55.so)
 
-add_library( swscale-4
-             SHARED
-             IMPORTED)
-set_target_properties( swscale-4
-                       PROPERTIES IMPORTED_LOCATION
-                       ${ffmpeg_DIR}/armeabi/libswscale-4.so)
 
-add_library( yuv
-             SHARED
-             IMPORTED)
-set_target_properties( yuv
-                       PROPERTIES IMPORTED_LOCATION
-                       ${ffmpeg_DIR}/armeabi/libyuv.so)
+#libpostproc-54.so
+add_library(libpostproc-54-lib SHARED IMPORTED)
+set_target_properties(libpostproc-54-lib  PROPERTIES IMPORTED_LOCATION
+${distribution_DIR}/${ANDROID_ABI}/libpostproc-54.so)
+
+
+#libswresample-2.so
+add_library(libswresample-2-lib SHARED IMPORTED)
+set_target_properties(libswresample-2-lib  PROPERTIES IMPORTED_LOCATION
+${distribution_DIR}/${ANDROID_ABI}/libswresample-2.so)
+
+
+#libswscale-4.so
+add_library(libswscale-4-lib SHARED IMPORTED)
+set_target_properties(libswscale-4-lib  PROPERTIES IMPORTED_LOCATION
+${distribution_DIR}/${ANDROID_ABI}/libswscale-4.so)
+
+#libyuv.so
+add_library(libyuv-lib SHARED IMPORTED)
+set_target_properties(libyuv-lib PROPERTIES IMPORTED_LOCATION ${distribution_DIR}/${ANDROID_ABI}/libyuv.so)
+
+
+
+##################################################################################################
+##################################################################################################
+
+
 
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by
@@ -92,22 +97,32 @@ find_library( # Sets the name of the path variable.
               # Specifies the name of the NDK library that
               # you want CMake to locate.
               log )
+              #这个库是用于surface在c代码中交互而添加的
+find_library( # Sets the name of the path variable.
+              lnative_window_jni-lib
+
+              # Specifies the name of the NDK library that
+              # you want CMake to locate.
+              android )
 
 # Specifies libraries CMake should link to your target library. You
 # can link multiple libraries, such as libraries you define in this
 # build script, prebuilt third-party libraries, or system libraries.
-
+include_directories(src/main/cpp/include/)
 target_link_libraries( # Specifies the target library.
                        native-lib
-                       avcodec-57
-                       avfilter-6
-                       avformat-57
-                       avutil-55
-                       swresample-2
-                       swscale-4
-                       yuv
+
                        # Links the target library to the log library
                        # included in the NDK.
                        ${log-lib}
-                       android
-                       )
+                       ${lnative_window_jni-lib}
+                       libavcodec-57-lib
+                       libavdevice-57-lib
+                       libavfilter-6-lib
+                       libavformat-57-lib
+                       libavutil-55-lib
+                       libpostproc-54-lib
+                       libswresample-2-lib
+                       libswscale-4-lib
+                       libyuv-lib
+                        )

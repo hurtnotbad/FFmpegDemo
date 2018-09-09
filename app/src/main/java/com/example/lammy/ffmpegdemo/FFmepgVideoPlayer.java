@@ -1,6 +1,7 @@
 package com.example.lammy.ffmpegdemo;
 
 import android.graphics.PixelFormat;
+import android.util.Log;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -29,6 +30,10 @@ public class FFmepgVideoPlayer {
         SurfaceHolder surfaceHolder = surfaceView.getHolder();
         surfaceHolder.setFormat(PixelFormat.RGBA_8888);
 
+        Surface surface = surfaceHolder.getSurface();
+        if(surface == null){
+            Log.e("lammy", "surface is null");
+        }
 
         play(IFFmpEgVideoPlayer , path ,  surfaceHolder.getSurface());
     }
